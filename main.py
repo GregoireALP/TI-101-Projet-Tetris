@@ -13,5 +13,6 @@ def afficher(bloc):
                 print(" ", end=" ")
         print()
 
-
-afficher(blocs.blocs_liste[losange_liste[len(losange_liste) - 1]])
+for i in range(len(triangle_liste)):
+    afficher(blocs.blocs_liste[triangle_liste[i]])
+    print()
