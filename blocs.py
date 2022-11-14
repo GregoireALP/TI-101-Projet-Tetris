@@ -290,4 +290,5 @@ blocs_liste_triangle = [
     ]
 ]
 
+# On creer une grande liste regroupant tout les blocs disponibles dans le jeu
 blocs_liste = blocs_liste_commun + blocs_liste_cercle + blocs_liste_losange + blocs_liste_triangle
