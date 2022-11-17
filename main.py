@@ -1,4 +1,6 @@
 import blocs  # On importe nos lists de blocs
+import time
+import os
 
 # On initialise nos liste de blocs pour chaque grille en ajoutant leur indices
 cercle_liste = [i for i in range(0, len(blocs.blocs_liste_commun) + len(blocs.blocs_liste_cercle))]
@@ -90,7 +92,6 @@ Permet d'afficher un tableau 2D sous forme d'une grille decore
 
 
 def print_grid(grid):
-
     # On cree des alphabets pour les coordonnees
     alphabet = "abcdefghijklmnopqrstuvwxyz"
     alphabetCap = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -99,10 +100,7 @@ def print_grid(grid):
     print("    ", end="")
     for i in range(len(grid[0])):
         print(alphabet[i], end=" ")
-    print("\n  ╔ ", end="")
-    for i in range(len(grid[0])):
-        print("=", end=" ")
-    print("╗")
+    print("\n  ╔", len(grid[0]) * "= " + "╗")
 
     '''
     On affiche le contenu du tableau 2D
@@ -119,8 +117,42 @@ def print_grid(grid):
                 print("■", end=" ")
         print("║")
 
-    # Quelques decorations
-    print("  ╚ ", end="")
-    for i in range(len(grid[0])):
-        print("=", end=" ")
-    print("╝")
+    print("  ╚", len(grid[0]) * "= " + "╝")
+
+
+def print_bloc(grid):
+    def showbloc(bloc):
+        for i in range(len(bloc)):
+            for y in range(len(bloc[i])):
+                if bloc[i][y] == 2:
+                    print("●", end="")
+                else:
+                    print(" ", end="")
+            print()
+        print()
+
+    if grid == "cerlce.txt":
+        for i in range(len(cercle_liste)):
+            showbloc(blocs.blocs_liste[cercle_liste[i]])
+
+    if grid == "losange.txt":
+        for i in range(len(losange_liste)):
+            showbloc(blocs.blocs_liste[losange_liste[i]])
+
+    if grid == "triangle.txt":
+        for i in range(len(triangle_liste)):
+            showbloc(blocs.blocs_liste[triangle_liste[i]])
+
+
+def regles():
+    print(
+        "● Le Tetris est un jeu qui se présente sous forme d’une matrice où des blocs de différentes formes doivent être posés de sorte que le plateau soit gardé le plus longtemps possible non plein.")
+    print(
+        "● L’idée est de placer chaque bloc à l’emplacement qui permet d’éliminer un maximum de lignes et/ou de colonnes.")
+    print("● Ces dernières sont supprimées automatiquement lorsqu’elles sont pleines")
+    print()
+    print(
+        "● Pour insérer un bloc sur le plateau, l’utilisateur dispose de trois tentatives pour saisir des coordonnées valides.")
+    print(
+        "● Si à l’issue de 3 tentatives successives, les positions choisies sont à chaque fois invalides, alors le jeu s’arrête.")
+    print("● A la fin de la partie, un message doit s’afficher à l’écran rappelant le score obtenu.")
