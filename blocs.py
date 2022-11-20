@@ -312,7 +312,6 @@ def display_bloc(bloc):
             else:
                 print(" ", end="")
         print()
-    print()
 
 
 def print_bloc(grid):
@@ -340,9 +339,9 @@ def select_blocs(grid):
     if grid == "cerlce.txt":
         return get_blocs(cercle_liste)
 
-    if grid == "losange.txt":
+    elif grid == "losange.txt":
         return get_blocs(losange_liste)
 
-    if grid == "triangle.txt":
+    elif grid == "triangle.txt":
         return get_blocs(triangle_liste)
 

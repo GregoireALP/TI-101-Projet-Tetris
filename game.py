@@ -1,5 +1,8 @@
 import os
+
+import blocs
 import grid
+import utils
 
 
 def regles():
@@ -80,5 +83,7 @@ def choisir_grid():
 
 
 def game_loop(_grid):
-    os.system("cls")
-    grid.print_grid(grid.read_grid(_grid))
+    isGameFinish = False
+
+    while not isGameFinish:
+        utils.update_console(_grid)
