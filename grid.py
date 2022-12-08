@@ -125,4 +125,4 @@ def emplace_bloc(grid, bloc, x, y):
     for i in range(len(bloc) - 1, -1, -1):
         for j in range(len(bloc[i])):
             if bloc[i][j] == 2:
-                grid[x + (i - 3)][y + j] = 2
+                grid[x + (i - len(bloc) + 1)][y + j] = 2
