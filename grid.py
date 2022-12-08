@@ -1,4 +1,3 @@
-
 """
 Permet de lire un fichier texte grille
 Et de retourner son equivalent en tableau 2D
@@ -24,7 +23,7 @@ def read_grid(path):
             Son caractere sous forme d'int
             '''
             for e in l:
-                if e == "1" or e == "0":
+                if e == "1" or e == "0" or e == "2":
                     line.append(int(e))
 
             # On insere la ligne dans notre tableau
@@ -110,15 +109,20 @@ def print_grid(grid):
 
 
 def valid_position(grid, bloc, x, y):
-    alphabet = "abcdefghijklmnopqrstuvwxy"
-    caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if grid[x][y] != 1:
         return False
     else:
+        isValid = True
         for i in range(len(bloc) - 1, -1, -1):
             for j in range(len(bloc[i])):
-                if bloc[i][j] == 2:
-                    grid[x + i][y + j] = 2
-                else:
-                    grid[x + i][y + j] = 1
-    print_grid(grid)
+                if grid[x - i][y + j] != 1:
+                    if bloc[i][j] == 2:
+                        isValid = False
+        return isValid
+
+
+def emplace_bloc(grid, bloc, x, y):
+    for i in range(len(bloc) - 1, -1, -1):
+        for j in range(len(bloc[i])):
+            if bloc[i][j] == 2:
+                grid[x + (i - 3)][y + j] = 2

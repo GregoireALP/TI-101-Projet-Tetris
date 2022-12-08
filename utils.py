@@ -6,13 +6,12 @@ alphabet = "abcdefghijklmnopqrstuvwxy"
 caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
-def update_console(_grid, gameState):
+def update_console(content, gameState, grid_name):
     os.system("cls")
 
-    content = grid.read_grid(_grid)
     grid.print_grid(content)
 
-    bs = blocs.select_blocs(_grid)
+    bs = blocs.select_blocs(grid_name)
     for i in range(len(bs)):
         print(i, ") ")
         blocs.display_bloc(bs[i])
@@ -29,8 +28,7 @@ def update_console(_grid, gameState):
     ycor = alphabet.index(y)
 
     res = grid.valid_position(content, bs[choice], xcor, ycor)
+    if res:
+        grid.emplace_bloc(content, bs[choice], xcor, ycor)
 
-    print(res)
-
-    input()
-    return gameState
+    return content, gameState

@@ -84,8 +84,9 @@ def choisir_grid():
 
 def game_loop(_grid):
     isGameFinish = False
+    content = grid.read_grid(_grid)
 
     while not isGameFinish:
-        isGameFinish = utils.update_console(_grid, isGameFinish)
+        content, isGameFinish = utils.update_console(content, isGameFinish, _grid)
 
 
