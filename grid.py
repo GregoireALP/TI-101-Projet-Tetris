@@ -1,5 +1,4 @@
 
-
 """
 Permet de lire un fichier texte grille
 Et de retourner son equivalent en tableau 2D
@@ -108,3 +107,18 @@ def print_grid(grid):
         print("║")
 
     print("  ╚", len(grid[0]) * "= " + "╝")
+
+
+def valid_position(grid, bloc, x, y):
+    alphabet = "abcdefghijklmnopqrstuvwxy"
+    caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if grid[x][y] != 1:
+        return False
+    else:
+        for i in range(len(bloc) - 1, -1, -1):
+            for j in range(len(bloc[i])):
+                if bloc[i][j] == 2:
+                    grid[x + i][y + j] = 2
+                else:
+                    grid[x + i][y + j] = 1
+    print_grid(grid)

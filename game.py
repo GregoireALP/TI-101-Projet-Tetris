@@ -39,21 +39,21 @@ def start():
     print(" " * 10 + "╚═════════════════════════════════════════════════════════╝")
 
     print()
-    print("1- Afficher les regles du jeu")
-    print("2- Commencer le jeu")
+    print("1- Commencer le jeu")
+    print("2- Afficher les regles du jeu")
     print("3- Quiiter le jeu")
 
     print()
     print()
     result = int(input("Reponse: "))
 
-    if result == 1:
+    if result == 2:
         os.system("cls")
         regles()
         input()
         os.system("cls")
         start()
-    elif result == 2:
+    elif result == 1:
         choisir_grid()
     elif result == 3:
         return 0
@@ -86,4 +86,6 @@ def game_loop(_grid):
     isGameFinish = False
 
     while not isGameFinish:
-        utils.update_console(_grid)
+        isGameFinish = utils.update_console(_grid, isGameFinish)
+
+
