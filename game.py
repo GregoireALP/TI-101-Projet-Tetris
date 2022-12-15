@@ -99,11 +99,9 @@ def update_console(content, gameState, grid_name):
 
     for line in range(len(content)):
         res = row_state(content, line)
-        print(res)
 
     for col in range(len(content[0])):
         res = col_state(content, col)
-        print(res)
 
     bs = blocs.select_blocs(grid_name)
     for i in range(len(bs)):
@@ -131,7 +129,7 @@ def update_console(content, gameState, grid_name):
 def row_state(grid, i):
     isFull = True
     for e in grid[i]:
-        if e != 2:
+        if e == 1 or e == 0:
             isFull = False
     return isFull
 
@@ -139,6 +137,6 @@ def row_state(grid, i):
 def col_state(grid, i):
     isFull = True
     for y in range(len(grid)):
-        if grid[y][i] != 2:
+        if grid[y][i] or grid[y][i] :
             isFull = False
     return isFull
