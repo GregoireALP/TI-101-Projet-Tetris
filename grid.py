@@ -10,7 +10,7 @@ def read_grid(path):
     grid = []
 
     # On ouvre le fichier indique en tant que variable txt
-    with open(path) as txt:
+    with open("./src/" + path) as txt:
 
         # On parcours chaque ligne
         for l in txt:

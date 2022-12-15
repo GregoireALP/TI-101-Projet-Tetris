@@ -327,7 +327,6 @@ def print_bloc(grid):
 
 
 def get_blocs(blocList):
-
     bs = []
     for _ in range(3):
         e = random.randint(0, len(blocList) - 1)
@@ -337,7 +336,6 @@ def get_blocs(blocList):
 
 
 def select_blocs(grid):
-
     if grid == "cercle.txt":
         return get_blocs(cercle_liste)
 
