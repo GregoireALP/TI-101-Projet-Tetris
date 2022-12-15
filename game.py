@@ -2,7 +2,17 @@ import os
 
 import blocs
 import grid
-import utils
+
+alphabet = "abcdefghijklmnopqrstuvwxy"
+caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def game_loop(_grid):
+    isGameFinish = False
+    content = grid.read_grid(_grid)
+
+    while not isGameFinish:
+        content, isGameFinish = update_console(content, isGameFinish, _grid)
 
 
 def regles():
@@ -41,7 +51,7 @@ def start():
     print()
     print("1- Commencer le jeu")
     print("2- Afficher les regles du jeu")
-    print("3- Quiiter le jeu")
+    print("3- Quitter le jeu")
 
     print()
     print()
@@ -82,11 +92,53 @@ def choisir_grid():
         choisir_grid()
 
 
-def game_loop(_grid):
-    isGameFinish = False
-    content = grid.read_grid(_grid)
+def update_console(content, gameState, grid_name):
+    os.system("cls")
 
-    while not isGameFinish:
-        content, isGameFinish = utils.update_console(content, isGameFinish, _grid)
+    grid.print_grid(content)
+
+    for line in range(len(content)):
+        res = row_state(content, line)
+        print(res)
+
+    for col in range(len(content[0])):
+        res = col_state(content, col)
+        print(res)
+
+    bs = blocs.select_blocs(grid_name)
+    for i in range(len(bs)):
+        print(i, ") ")
+        blocs.display_bloc(bs[i])
+
+    choice = int(input("Quelle block voulez-vous choisir ?"))
+    while 0 > choice or choice > 2:
+        print("Ce block n'existe pas !")
+        choice = int(input("Quelle block voulez-vous choisir ?"))
+
+    x = input("Sur quelle ligne voulez-vous poser le block")
+    xcor = caps.index(x)
+
+    y = input("Sur quelle colonne voulez-vous poser le block")
+    ycor = alphabet.index(y)
+
+    res = grid.valid_position(content, bs[choice], xcor, ycor)
+    if res:
+        grid.emplace_bloc(content, bs[choice], xcor, ycor)
+
+    return content, gameState
 
 
+def row_state(grid, i):
+    isFull = True
+    for e in grid[i]:
+        if e != 2:
+            isFull = False
+    return isFull
+
+
+def col_state(grid, i):
+    isFull = True
+    for y in range(len(grid)):
+        if grid[y][i] != 2:
+            isFull = False
+    return isFull
