@@ -111,7 +111,7 @@ def print_grid(grid):
 def valid_position(grid, bloc, x, y):
     if grid[x][y] != 1:
         return False
-    else:
+    elif grid[x][y] == 1:
         isValid = True
         for i in range(len(bloc) - 1, -1, -1):
             for j in range(len(bloc[i])):
