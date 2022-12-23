@@ -16,7 +16,7 @@ def game_loop(_grid):
 
     isGameFinish = False  # Variable d'etat de la partie
     content = grid.read_grid(_grid)  # On recupere la matrice de la grille
-    score = 0  # On creer la varible de score
+    score = 100  # On creer la varible de score
 
     # Tant que la variable d'etat du jeu n'est pas vrai (jeu non fini) on execute la fonction
     while not isGameFinish:
@@ -28,8 +28,18 @@ def game_loop(_grid):
 
     # On efface la console
     os.system("cls")
-    print("Partie finie")
-    print("Score: ", score)
+
+    # Affichage fin de partie
+    print(" " * 10 + "╔══════════════════════════════════════════════════╗")
+    print(" " * 10 + "║                                                  ║")
+    print(" " * 10 + "║                   PARTIE TERMINE                 ║")
+    print(" " * 10 + "║                                                  ║")
+    print(" " * 10 + "╚══════════════════════════════════════════════════╝")
+    print()
+    print()
+    print("╔═════════════" + "═" * len(str(score)) + "═╗")
+    print("║ Score: ", score, "    ║")
+    print("╚═════════" + "═" * len(str(score)) + "═════╝")
 
 
 def regles():
@@ -207,8 +217,10 @@ def update_console(content, gameState, grid_name, score, error=0):
     # On efface le terminal
     os.system("cls")
 
-    # Affichage du score
-    print("Score:", score)
+    # Affichage du score, affichage modulable en fonction du score
+    print("╔═════════════" + "═" * len(str(score)) + "═╗")
+    print("║ Score: ", score, "    ║")
+    print("╚═════════" + "═" * len(str(score)) + "═════╝")
 
     # Affichage de la grille
     grid.print_grid(content)
@@ -306,6 +318,10 @@ def update_console(content, gameState, grid_name, score, error=0):
                 # On efface la colonne
                 grid.clear_col(content, col)
     else:
+
+        # Indiquation pour le joueur
+        print("La position indiqué n'est pas valide !")
+        input()
 
         # Si la position n'est pas valie on recommence la fonction en ajoutant l'echec 1
         return update_console(content, gameState, grid_name, score, error + 1)
