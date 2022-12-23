@@ -20,7 +20,6 @@ def game_loop(_grid):
 
     # Tant que la variable d'etat du jeu n'est pas vrai (jeu non fini) on execute la fonction
     while not isGameFinish:
-
         """
         La fonction update_console() renvoie un score, une nouvelle grille et un etat
         On reinsere ces elements dans la fonction en verifiant avant si la partie n'est pas finie
@@ -178,7 +177,7 @@ def choisir_grid():
             choisir_grid()
 
 
-def update_console(content, gameState, grid_name, score, error = 0):
+def update_console(content, gameState, grid_name, score, error=0):
     """
     Fonction principal du jeu qui execute chaque instruction
 
@@ -257,10 +256,10 @@ def update_console(content, gameState, grid_name, score, error = 0):
     ycor = alphabet.index(y)
 
     # On teste si la position demandé est valide
-    res = grid.valid_position(content, bs[choice], xcor, ycor)
+    isPositionValid = grid.valid_position(content, bs[choice], xcor, ycor)
 
     # Si la position est valide
-    if res:
+    if isPositionValid:
         # On place le bloc sur la grille
         grid.emplace_bloc(content, bs[choice], xcor, ycor)
 
@@ -268,10 +267,10 @@ def update_console(content, gameState, grid_name, score, error = 0):
         for line in range(len(content)):
 
             # On teste si elle est pleine
-            res = row_state(content, line)
+            isRowFull = row_state(content, line)
 
             # Si elle est pleine
-            if res:
+            if isRowFull:
 
                 # Pour chaque element sur cette ligne
                 for e in content[line]:
@@ -285,16 +284,16 @@ def update_console(content, gameState, grid_name, score, error = 0):
                 grid.clear_row(content, line)
 
                 # On fait descendre la grille
-                grid.grid_go_down(content, line)
+                # grid.grid_go_down(content, line)
 
         # Pour chaque indice d'element dans une ligne (Pour chaque colonne)
         for col in range(len(content[0])):
 
             # On teste si la colonne a cette indice est pleine
-            res = col_state(content, col)
+            isColFull = col_state(content, col)
 
             # Si elle est plein
-            if res:
+            if isColFull:
 
                 # Pour chaque ligne
                 for e in content:
@@ -330,8 +329,8 @@ def row_state(_grid, i):
     # POur chaque element de la ligne i
     for e in _grid[i]:
 
-        # Si la case est vide ou inexistante
-        if e == 1 or e == 0:
+        # Si la case est vide
+        if e == 1:
             # La ligne n'est pas vide
             isFull = False
 
@@ -355,8 +354,8 @@ def col_state(_grid, i):
     # Pour chasque ligne de la grille
     for y in range(len(_grid)):
 
-        # Si la case est vide ou inexistante
-        if _grid[y][i] == 1 or _grid[y][i] == 0:
+        # Si la case est vide
+        if _grid[y][i] == 1:
             # La colonne n'est pas vide
             isFull = False
 
