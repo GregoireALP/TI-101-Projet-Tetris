@@ -10,9 +10,10 @@ caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def game_loop(_grid):
     isGameFinish = False
     content = grid.read_grid(_grid)
+    score = 0
 
     while not isGameFinish:
-        content, isGameFinish = update_console(content, isGameFinish, _grid)
+        content, isGameFinish, score = update_console(content, isGameFinish, _grid, score)
 
 
 def regles():
@@ -92,18 +93,10 @@ def choisir_grid():
         choisir_grid()
 
 
-def update_console(content, gameState, grid_name):
+def update_console(content, gameState, grid_name, score):
     os.system("cls")
 
     grid.print_grid(content)
-
-    for line in range(len(content)):
-        res = row_state(content, line)
-        print(res)
-
-    for col in range(len(content[0])):
-        res = col_state(content, col)
-        print(res)
 
     bs = blocs.select_blocs(grid_name)
     for i in range(len(bs)):
@@ -125,20 +118,31 @@ def update_console(content, gameState, grid_name):
     if res:
         grid.emplace_bloc(content, bs[choice], xcor, ycor)
 
-    return content, gameState
+    for line in range(len(content)):
+        res = row_state(content, line)
+        if res:
+            grid.clear_row(content, line)
+            score += len(content[line])
+
+    for col in range(len(content[0])):
+        res = col_state(content, col)
+        if res:
+            grid.clear_col(content, col)
+
+    return content, gameState, score
 
 
-def row_state(grid, i):
+def row_state(_grid, i):
     isFull = True
-    for e in grid[i]:
-        if e != 2:
+    for e in _grid[i]:
+        if e == 1 or e == 0:
             isFull = False
     return isFull
 
 
-def col_state(grid, i):
+def col_state(_grid, i):
     isFull = True
-    for y in range(len(grid)):
-        if grid[y][i] != 2:
+    for y in range(len(_grid)):
+        if _grid[y][i] == 1 or _grid[y][i] == 0:
             isFull = False
     return isFull

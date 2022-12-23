@@ -126,3 +126,13 @@ def emplace_bloc(grid, bloc, x, y):
         for j in range(len(bloc[i])):
             if bloc[i][j] == 2:
                 grid[x + (i - len(bloc) + 1)][y + j] = 2
+
+
+def clear_row(grid, i):
+    for y in range(len(grid[i])):
+        grid[i][y] = 1
+
+
+def clear_col(grid, i):
+    for y in range(len(grid)):
+        grid[y][i] = 1
