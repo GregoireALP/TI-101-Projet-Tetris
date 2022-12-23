@@ -112,7 +112,8 @@ def valid_position(grid, bloc, x, y):
     validPosition = True
     for i in range(len(bloc) - 1, -1, -1):
         for j in range(len(bloc[i])):
-            if bloc[i][j] == 2 and (grid[x + (i - len(bloc) + 1)][y + j] == 2 or grid[x + (i - len(bloc) + 1)][y + j] == 0):
+            if bloc[i][j] == 2 and (
+                    grid[x + (i - len(bloc) + 1)][y + j] == 2 or grid[x + (i - len(bloc) + 1)][y + j] == 0):
                 validPosition = False
     return validPosition
 
@@ -132,3 +133,8 @@ def clear_row(grid, i):
 def clear_col(grid, i):
     for y in range(len(grid)):
         grid[y][i] = 1
+
+
+def grid_go_down(grid, line):
+    grid.pop(line)
+    grid.insert(0, [1 for i in range(21)])

@@ -100,7 +100,7 @@ def update_console(content, gameState, grid_name, score):
 
     grid.print_grid(content)
 
-    bs = blocs.select_blocs(grid_name)
+    bs = blocs.select_bloc(grid_name)
     for i in range(len(bs)):
         print(i, ") ")
         blocs.display_bloc(bs[i])
@@ -128,6 +128,7 @@ def update_console(content, gameState, grid_name, score):
                     score += 1
 
             grid.clear_row(content, line)
+            grid.grid_go_down(content, line)
 
     for col in range(len(content[0])):
         res = col_state(content, col)
