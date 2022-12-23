@@ -418,11 +418,11 @@ def display_bloc(bloc):
     """
     Permet d'afficher sur la console un bloc choisis
 
-        Parameters:
-            bloc (list (list (int))): Matrice du bloc choisis
+        @:parameter:
+            @:param bloc (list (list (int))): Matrice du bloc choisis
 
-        Returns:
-            void
+        @:returns :
+            @:return void
     """
     for i in range(len(bloc)):
 
@@ -447,11 +447,11 @@ def print_bloc(grid):
     Permet d'afficher l'ensemble des blocs disponible
     pour un plateau choisis
 
-        Parameters:
-            grid (str): Nom du fichier plateau
+        @:parameter:
+            @:param grid (str): Nom du fichier plateau
 
-        Returns:
-            void
+        @:returns:
+            @:return void
     """
     match grid:
 
@@ -475,11 +475,11 @@ def print_bloc(grid):
 def select_bloc(gridName):
     """
     Permet de recuperer 3 blocs selon le plateau choisis
-        Parameters:
-            gridName (list (list)): Nom du fichier du plateau
+        @:parameter :
+            @:param gridName (list (list)): Nom du fichier du plateau
 
-        Returns:
-            bs: list (list): Les 3 blocs choisis
+        @:returns:
+            @:return  bs: list (list): Les 3 blocs choisis
     """
 
     usedGrid = None
