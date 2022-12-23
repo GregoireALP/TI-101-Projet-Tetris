@@ -109,16 +109,12 @@ def print_grid(grid):
 
 
 def valid_position(grid, bloc, x, y):
-    if grid[x][y] != 1:
-        return False
-    elif grid[x][y] == 1:
-        isValid = True
-        for i in range(len(bloc) - 1, -1, -1):
-            for j in range(len(bloc[i])):
-                if grid[x - i][y + j] != 1:
-                    if bloc[i][j] == 2:
-                        isValid = False
-        return isValid
+    validPosition = True
+    for i in range(len(bloc) - 1, -1, -1):
+        for j in range(len(bloc[i])):
+            if bloc[i][j] == 2 and (grid[x + (i - len(bloc) + 1)][y + j] == 2 or grid[x + (i - len(bloc) + 1)][y + j] == 0):
+                validPosition = False
+    return validPosition
 
 
 def emplace_bloc(grid, bloc, x, y):

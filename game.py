@@ -96,6 +96,8 @@ def choisir_grid():
 def update_console(content, gameState, grid_name, score):
     os.system("cls")
 
+    print("Score:", score)
+
     grid.print_grid(content)
 
     bs = blocs.select_blocs(grid_name)
@@ -121,12 +123,19 @@ def update_console(content, gameState, grid_name, score):
     for line in range(len(content)):
         res = row_state(content, line)
         if res:
+            for e in content[line]:
+                if e == 2:
+                    score += 1
+
             grid.clear_row(content, line)
-            score += len(content[line])
 
     for col in range(len(content[0])):
         res = col_state(content, col)
         if res:
+            for e in content:
+                if e[col] == 2:
+                    score += 1
+
             grid.clear_col(content, col)
 
     return content, gameState, score
