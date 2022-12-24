@@ -184,6 +184,8 @@ def choisir_grid():
 
         # Sinon on refais choisir l'utilisateur
         case _:
+            print("Ce choix n'est pas reconnu, veuillez ressayer !")
+            input()
             choisir_grid()
 
 
@@ -234,10 +236,17 @@ def update_console(content, gameState, grid_name, score, error=0):
         blocs.display_bloc(bs[i])
 
     # Demande du choix de l'utilisateur
-    choice = int(input("Quelle block voulez-vous choisir ?"))
-    while 0 > choice or choice > 2:
+    choice = int(input("Quelle block voulez-vous choisir ? (Tapez 3 pour quitter)"))
+    while 0 > choice or choice > 3:
         print("Ce block n'existe pas !")
         choice = int(input("Quelle block voulez-vous choisir ?"))
+
+    # Si l'utilisateur a quitté
+    if choice == 3:
+
+        # On arrete le jeu en modifiant la variable d'etat du jeu
+        gameState = True
+        return content, gameState, score
 
     # Demande de la coordonnee x du bloc
     x = input("Sur quelle ligne voulez-vous poser le block")
