@@ -16,7 +16,7 @@ def game_loop(_grid):
 
     isGameFinish = False  # Variable d'etat de la partie
     content = grid.read_grid(_grid)  # On recupere la matrice de la grille
-    score = 100  # On creer la varible de score
+    score = 0  # On creer la varible de score
 
     # Tant que la variable d'etat du jeu n'est pas vrai (jeu non fini) on execute la fonction
     while not isGameFinish:
@@ -245,9 +245,10 @@ def update_console(content, gameState, grid_name, score, error=0):
     # Saisis securisé
     isXCorValid = False
     while not isXCorValid:
-        if x in caps:
+        if x in caps[:len(content)]:
             isXCorValid = True
         else:
+            print("Ligne non disponible !")
             x = input("Sur quelle ligne voulez-vous poser le block")
 
     # On recupere la coordonne sous forme de nombre
@@ -259,9 +260,10 @@ def update_console(content, gameState, grid_name, score, error=0):
     # Saisis securisé
     isYCorValid = False
     while not isYCorValid:
-        if y in alphabet:
+        if y in alphabet[:len(content[0])]:
             isYCorValid = True
         else:
+            print("Colonne non disponible !")
             y = input("Sur quelle colonne voulez-vous poser le block")
 
     # On recupere la coordonne sous forme de nombre
