@@ -3,19 +3,21 @@ import blocs
 import grid
 
 
-def game_loop(_grid):
+def game_loop(_grid, fromSave=False):
     """
 =    Fonction principal qui execute en boucle la fonction d'instruction de jeu
 
         @:parameter:
             @:param _grid (str): Le nom du fichier de plateau
+            @:param fromSave(bool): Si le jeu demarre sur une sauvegarde
 
         @:returns :
             @:return void
     """
 
     isGameFinish = False  # Variable d'etat de la partie
-    content = grid.read_grid(_grid)  # On recupere la matrice de la grille
+    content = grid.read_grid(_grid) if not fromSave else grid.read_grid("./save/save.txt")  # On recupere la matrice
+    # de la grille
     score = 0  # On creer la varible de score
 
     # Tant que la variable d'etat du jeu n'est pas vrai (jeu non fini) on execute la fonction
@@ -24,7 +26,9 @@ def game_loop(_grid):
         La fonction update_console() renvoie un score, une nouvelle grille et un etat
         On reinsere ces elements dans la fonction en verifiant avant si la partie n'est pas finie
         """
-        content, isGameFinish, score = update_console(content, isGameFinish, _grid, score)
+
+        # SI le jeu est une sauvegarde on charge la partie en tant que cercle.txt
+        content, isGameFinish, score = update_console(content, isGameFinish, _grid if not fromSave else "cercle.txt", score)
 
     # On efface la console
     os.system("cls")
@@ -99,7 +103,8 @@ def start():
     print()
     print("1- Commencer le jeu")
     print("2- Afficher les regles du jeu")
-    print("3- Quitter le jeu")
+    print("3- Charger la sauvegarde")
+    print("4- Quitter le jeu")
     print()
     print()
 
@@ -132,10 +137,15 @@ def start():
             # On affiche les grilles
             choisir_grid()
 
-        case 3:
+        case 4:
 
             # On retourne 0, le programme s'arrete
             return 0
+
+        case 3:
+
+            # On demarre le jeu en allant chercher le fichier texte de sauvegarde directement
+            game_loop("", True)
 
         # Sinon on re affiche le menu
         case _:
@@ -236,13 +246,15 @@ def update_console(content, gameState, grid_name, score, error=0):
         blocs.display_bloc(bs[i])
 
     # Demande du choix de l'utilisateur
-    choice = int(input("Quelle block voulez-vous choisir ? (Tapez 3 pour quitter)"))
+    choice = int(input("Quelle block voulez-vous choisir ? (Tapez 3 pour quitter en sauvegardant)"))
     while 0 > choice or choice > 3:
         print("Ce block n'existe pas !")
         choice = int(input("Quelle block voulez-vous choisir ?"))
 
     # Si l'utilisateur a quitté
     if choice == 3:
+        # On enregistre la grille
+        grid.save_grid("./src/save/save.txt", content)
 
         # On arrete le jeu en modifiant la variable d'etat du jeu
         gameState = True
@@ -307,7 +319,7 @@ def update_console(content, gameState, grid_name, score, error=0):
                 grid.clear_row(content, line)
 
                 # On fait descendre la grille
-                # grid.grid_go_down(content, line)
+                grid.grid_go_down(content, line)
 
         # Pour chaque indice d'element dans une ligne (Pour chaque colonne)
         for col in range(len(content[0])):
