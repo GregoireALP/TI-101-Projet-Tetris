@@ -109,12 +109,12 @@ def start():
     print()
 
     # On demande a l'utilisateur son choix
-    result = int(input("Reponse: "))
+    result = input("Reponse: ")
 
     match result:
 
         # 2 = Afficher les regles
-        case 2:
+        case "2":
 
             # On efface le terminal
             os.system("cls")
@@ -132,17 +132,17 @@ def start():
             start()
 
         # 1 = Commencer le jeu
-        case 1:
+        case "1":
 
             # On affiche les grilles
             choisir_grid()
 
-        case 4:
+        case "4":
 
             # On retourne 0, le programme s'arrete
             return 0
 
-        case 3:
+        case "3":
 
             # On demarre le jeu en allant chercher le fichier texte de sauvegarde directement
             game_loop("", True)
@@ -175,21 +175,21 @@ def choisir_grid():
     print()
 
     # On demande un choix a l'utilisateur
-    result = int(input("Reponse: "))
+    result = input("Reponse: ")
 
     # On teste la reponse
     match result:
 
         # 1 = Cerlce
-        case 1:
+        case "1":
             game_loop("cercle.txt")
 
         # 2 = Losange
-        case 2:
+        case "2":
             game_loop("losange.txt")
 
         # 3 = Triangle
-        case 3:
+        case "3":
             game_loop("triangle.txt")
 
         # Sinon on refais choisir l'utilisateur
