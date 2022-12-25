@@ -28,7 +28,8 @@ def game_loop(_grid, fromSave=False):
         """
 
         # SI le jeu est une sauvegarde on charge la partie en tant que cercle.txt
-        content, isGameFinish, score = update_console(content, isGameFinish, _grid if not fromSave else "cercle.txt", score)
+        content, isGameFinish, score = update_console(content, isGameFinish, _grid if not fromSave else "cercle.txt",
+                                                      score)
 
     # On efface la console
     os.system("cls")
@@ -111,45 +112,41 @@ def start():
     # On demande a l'utilisateur son choix
     result = input("Reponse: ")
 
-    match result:
+    if result == "2":
+        # On efface le terminal
+        os.system("cls")
 
-        # 2 = Afficher les regles
-        case "2":
+        # On execute la fonction regle()
+        regles()
 
-            # On efface le terminal
-            os.system("cls")
+        # On attend tant que l'utilisateur n'appuie pas sur une touche
+        input()
 
-            # On execute la fonction regle()
-            regles()
+        # On efface la console
+        os.system("cls")
 
-            # On attend tant que l'utilisateur n'appuie pas sur une touche
-            input()
+        # On re affiche le menu
+        start()
 
-            # On efface la console
-            os.system("cls")
+    # 1 = Commencer le jeu
+    elif result == "1":
 
-            # On re affiche le menu
-            start()
+        # On affiche les grilles
+        choisir_grid()
 
-        # 1 = Commencer le jeu
-        case "1":
+    elif result == "4":
 
-            # On affiche les grilles
-            choisir_grid()
+        # On retourne 0, le programme s'arrete
+        return 0
 
-        case "4":
+    elif result == "3":
 
-            # On retourne 0, le programme s'arrete
-            return 0
+        # On demarre le jeu en allant chercher le fichier texte de sauvegarde directement
+        game_loop("", True)
 
-        case "3":
-
-            # On demarre le jeu en allant chercher le fichier texte de sauvegarde directement
-            game_loop("", True)
-
-        # Sinon on re affiche le menu
-        case _:
-            start()
+    # Sinon on re affiche le menu
+    else:
+        start()
 
 
 def choisir_grid():
@@ -177,26 +174,23 @@ def choisir_grid():
     # On demande un choix a l'utilisateur
     result = input("Reponse: ")
 
-    # On teste la reponse
-    match result:
+    # 1 = Cerlce
+    if result == "1":
+        game_loop("cercle.txt")
 
-        # 1 = Cerlce
-        case "1":
-            game_loop("cercle.txt")
+    # 2 = Losange
+    elif result == "2":
+        game_loop("losange.txt")
 
-        # 2 = Losange
-        case "2":
-            game_loop("losange.txt")
+    # 3 = Triangle
+    elif result == "3":
+        game_loop("triangle.txt")
 
-        # 3 = Triangle
-        case "3":
-            game_loop("triangle.txt")
-
-        # Sinon on refais choisir l'utilisateur
-        case _:
-            print("Ce choix n'est pas reconnu, veuillez ressayer !")
-            input()
-            choisir_grid()
+    # Sinon on refais choisir l'utilisateur
+    else:
+        print("Ce choix n'est pas reconnu, veuillez ressayer !")
+        input()
+        choisir_grid()
 
 
 def update_console(content, gameState, grid_name, score, error=0):
