@@ -453,23 +453,21 @@ def print_bloc(grid):
         @:returns:
             @:return void
     """
-    match grid:
+    # Pour fichier disponible
+    if grid == "cercle.txt":
 
-        # Pour fichier disponible
-        case "cercle.txt":
+        # On parcours tous les blocs de la liste
+        for i in range(len(cercle_liste)):
+            # On affiche chaque blocs
+            display_bloc(cercle_liste[i])
 
-            # On parcours tous les blocs de la liste
-            for i in range(len(cercle_liste)):
-                # On affiche chaque blocs
-                display_bloc(cercle_liste[i])
+    elif grid == "losange.txt":
+        for i in range(len(losange_liste)):
+            display_bloc(losange_liste[i])
 
-        case "losange.txt":
-            for i in range(len(losange_liste)):
-                display_bloc(losange_liste[i])
-
-        case "triangle.txt":
-            for i in range(len(triangle_liste)):
-                display_bloc(triangle_liste[i])
+    elif grid == "triangle.txt":
+        for i in range(len(triangle_liste)):
+            display_bloc(triangle_liste[i])
 
 
 def select_bloc(gridName):
@@ -484,18 +482,17 @@ def select_bloc(gridName):
 
     usedGrid = None
 
-    match gridName:
+    # On test le nom du  fichier
+    if gridName == "cercle.txt":
 
-        # On test le nom du  fichier
-        case "cercle.txt":
+        # On associe sa liste de blocs
+        usedGrid = cercle_liste
 
-            # On associe sa liste de blocs
-            usedGrid = cercle_liste
+    elif gridName == "losange.txt":
+        usedGrid = losange_liste
 
-        case "losange.txt":
-            usedGrid = losange_liste
-        case "triangle.txt":
-            usedGrid = losange_liste
+    elif gridName == "triangle.txt":
+        usedGrid = losange_liste
 
     # On creer une list de bloc vide
     bs = []

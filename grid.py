@@ -230,4 +230,5 @@ def grid_go_down(grid, line):
     @:returns
         @:return: void
     """
-    grid.pop(line)
+
+

@@ -3,20 +3,22 @@ import blocs
 import grid
 
 
-def game_loop(_grid):
+def game_loop(_grid, fromSave=False):
     """
 =    Fonction principal qui execute en boucle la fonction d'instruction de jeu
 
         @:parameter:
             @:param _grid (str): Le nom du fichier de plateau
+            @:param fromSave(bool): Si le jeu demarre sur une sauvegarde
 
         @:returns :
             @:return void
     """
 
     isGameFinish = False  # Variable d'etat de la partie
-    content = grid.read_grid(_grid)  # On recupere la matrice de la grille
-    score = 100  # On creer la varible de score
+    content = grid.read_grid(_grid) if not fromSave else grid.read_grid("./save/save.txt")  # On recupere la matrice
+    # de la grille
+    score = 0  # On creer la varible de score
 
     # Tant que la variable d'etat du jeu n'est pas vrai (jeu non fini) on execute la fonction
     while not isGameFinish:
@@ -24,7 +26,10 @@ def game_loop(_grid):
         La fonction update_console() renvoie un score, une nouvelle grille et un etat
         On reinsere ces elements dans la fonction en verifiant avant si la partie n'est pas finie
         """
-        content, isGameFinish, score = update_console(content, isGameFinish, _grid, score)
+
+        # SI le jeu est une sauvegarde on charge la partie en tant que cercle.txt
+        content, isGameFinish, score = update_console(content, isGameFinish, _grid if not fromSave else "cercle.txt",
+                                                      score)
 
     # On efface la console
     os.system("cls")
@@ -99,47 +104,49 @@ def start():
     print()
     print("1- Commencer le jeu")
     print("2- Afficher les regles du jeu")
-    print("3- Quitter le jeu")
+    print("3- Charger la sauvegarde")
+    print("4- Quitter le jeu")
     print()
     print()
 
     # On demande a l'utilisateur son choix
-    result = int(input("Reponse: "))
+    result = input("Reponse: ")
 
-    match result:
+    if result == "2":
+        # On efface le terminal
+        os.system("cls")
 
-        # 2 = Afficher les regles
-        case 2:
+        # On execute la fonction regle()
+        regles()
 
-            # On efface le terminal
-            os.system("cls")
+        # On attend tant que l'utilisateur n'appuie pas sur une touche
+        input()
 
-            # On execute la fonction regle()
-            regles()
+        # On efface la console
+        os.system("cls")
 
-            # On attend tant que l'utilisateur n'appuie pas sur une touche
-            input()
+        # On re affiche le menu
+        start()
 
-            # On efface la console
-            os.system("cls")
+    # 1 = Commencer le jeu
+    elif result == "1":
 
-            # On re affiche le menu
-            start()
+        # On affiche les grilles
+        choisir_grid()
 
-        # 1 = Commencer le jeu
-        case 1:
+    elif result == "4":
 
-            # On affiche les grilles
-            choisir_grid()
+        # On retourne 0, le programme s'arrete
+        return 0
 
-        case 3:
+    elif result == "3":
 
-            # On retourne 0, le programme s'arrete
-            return 0
+        # On demarre le jeu en allant chercher le fichier texte de sauvegarde directement
+        game_loop("", True)
 
-        # Sinon on re affiche le menu
-        case _:
-            start()
+    # Sinon on re affiche le menu
+    else:
+        start()
 
 
 def choisir_grid():
@@ -165,26 +172,25 @@ def choisir_grid():
     print()
 
     # On demande un choix a l'utilisateur
-    result = int(input("Reponse: "))
+    result = input("Reponse: ")
 
-    # On teste la reponse
-    match result:
+    # 1 = Cerlce
+    if result == "1":
+        game_loop("cercle.txt")
 
-        # 1 = Cerlce
-        case 1:
-            game_loop("cercle.txt")
+    # 2 = Losange
+    elif result == "2":
+        game_loop("losange.txt")
 
-        # 2 = Losange
-        case 2:
-            game_loop("losange.txt")
+    # 3 = Triangle
+    elif result == "3":
+        game_loop("triangle.txt")
 
-        # 3 = Triangle
-        case 3:
-            game_loop("triangle.txt")
-
-        # Sinon on refais choisir l'utilisateur
-        case _:
-            choisir_grid()
+    # Sinon on refais choisir l'utilisateur
+    else:
+        print("Ce choix n'est pas reconnu, veuillez ressayer !")
+        input()
+        choisir_grid()
 
 
 def update_console(content, gameState, grid_name, score, error=0):
@@ -234,10 +240,19 @@ def update_console(content, gameState, grid_name, score, error=0):
         blocs.display_bloc(bs[i])
 
     # Demande du choix de l'utilisateur
-    choice = int(input("Quelle block voulez-vous choisir ?"))
-    while 0 > choice or choice > 2:
+    choice = input("Quelle block voulez-vous choisir ? (Tapez 3 pour quitter en sauvegardant)")
+    while choice not in ["0", "1", "2", "3"]:
         print("Ce block n'existe pas !")
-        choice = int(input("Quelle block voulez-vous choisir ?"))
+        choice = input("Quelle block voulez-vous choisir ?")
+
+    # Si l'utilisateur a quitté
+    if choice == "3":
+        # On enregistre la grille
+        grid.save_grid("./src/save/save.txt", content)
+
+        # On arrete le jeu en modifiant la variable d'etat du jeu
+        gameState = True
+        return content, gameState, score
 
     # Demande de la coordonnee x du bloc
     x = input("Sur quelle ligne voulez-vous poser le block")
@@ -245,9 +260,10 @@ def update_console(content, gameState, grid_name, score, error=0):
     # Saisis securisé
     isXCorValid = False
     while not isXCorValid:
-        if x in caps:
+        if x in caps[:len(content)]:
             isXCorValid = True
         else:
+            print("Ligne non disponible !")
             x = input("Sur quelle ligne voulez-vous poser le block")
 
     # On recupere la coordonne sous forme de nombre
@@ -259,21 +275,22 @@ def update_console(content, gameState, grid_name, score, error=0):
     # Saisis securisé
     isYCorValid = False
     while not isYCorValid:
-        if y in alphabet:
+        if y in alphabet[:len(content[0])]:
             isYCorValid = True
         else:
+            print("Colonne non disponible !")
             y = input("Sur quelle colonne voulez-vous poser le block")
 
     # On recupere la coordonne sous forme de nombre
     ycor = alphabet.index(y)
 
     # On teste si la position demandé est valide
-    isPositionValid = grid.valid_position(content, bs[choice], xcor, ycor)
+    isPositionValid = grid.valid_position(content, bs[int(choice)], xcor, ycor)
 
     # Si la position est valide
     if isPositionValid:
         # On place le bloc sur la grille
-        grid.emplace_bloc(content, bs[choice], xcor, ycor)
+        grid.emplace_bloc(content, bs[int(choice)], xcor, ycor)
 
         # Pour chaque ligne dans la grille
         for line in range(len(content)):
@@ -296,7 +313,7 @@ def update_console(content, gameState, grid_name, score, error=0):
                 grid.clear_row(content, line)
 
                 # On fait descendre la grille
-                # grid.grid_go_down(content, line)
+                grid.grid_go_down(content, line)
 
         # Pour chaque indice d'element dans une ligne (Pour chaque colonne)
         for col in range(len(content[0])):
