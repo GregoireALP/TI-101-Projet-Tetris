@@ -240,13 +240,13 @@ def update_console(content, gameState, grid_name, score, error=0):
         blocs.display_bloc(bs[i])
 
     # Demande du choix de l'utilisateur
-    choice = int(input("Quelle block voulez-vous choisir ? (Tapez 3 pour quitter en sauvegardant)"))
-    while 0 > choice or choice > 3:
+    choice = input("Quelle block voulez-vous choisir ? (Tapez 3 pour quitter en sauvegardant)")
+    while choice not in ["0", "1", "2", "3"]:
         print("Ce block n'existe pas !")
-        choice = int(input("Quelle block voulez-vous choisir ?"))
+        choice = input("Quelle block voulez-vous choisir ?")
 
     # Si l'utilisateur a quitté
-    if choice == 3:
+    if choice == "3":
         # On enregistre la grille
         grid.save_grid("./src/save/save.txt", content)
 
@@ -285,12 +285,12 @@ def update_console(content, gameState, grid_name, score, error=0):
     ycor = alphabet.index(y)
 
     # On teste si la position demandé est valide
-    isPositionValid = grid.valid_position(content, bs[choice], xcor, ycor)
+    isPositionValid = grid.valid_position(content, bs[int(choice)], xcor, ycor)
 
     # Si la position est valide
     if isPositionValid:
         # On place le bloc sur la grille
-        grid.emplace_bloc(content, bs[choice], xcor, ycor)
+        grid.emplace_bloc(content, bs[int(choice)], xcor, ycor)
 
         # Pour chaque ligne dans la grille
         for line in range(len(content)):
